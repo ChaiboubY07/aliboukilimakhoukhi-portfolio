@@ -1,0 +1,209 @@
+/* ============================================================
+   Responsive
+   ============================================================ */
+
+/* Large desktops — tighten the centre nav ---------------------- */
+@media (max-width: 1320px) {
+  .nav {
+    gap: clamp(12px, 1.4vw, 22px);
+  }
+
+  .nav__link {
+    font-size: 0.61rem;
+    letter-spacing: 0.15em;
+  }
+
+  .brand__name {
+    font-size: 0.63rem;
+    letter-spacing: 0.2em;
+  }
+}
+
+/* Tablet landscape — burger navigation, hide side progress ----- */
+@media (max-width: 1200px) {
+  .hero-progress {
+    display: none;
+  }
+}
+
+@media (max-width: 1080px) {
+  .site-header__bar {
+    grid-template-columns: 1fr auto;
+  }
+
+  .nav {
+    display: none;
+  }
+
+  .burger {
+    display: block;
+  }
+
+  .hero-progress {
+    display: none;
+  }
+}
+
+/* Tablet — single-column compositions ------------------------- */
+@media (max-width: 992px) {
+  .about__grid,
+  .featured__grid,
+  .closing__grid,
+  .project-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .about__media,
+  .featured__media,
+  .project-gallery {
+    padding-inline-end: 0;
+  }
+
+  .about__body,
+  .featured__body,
+  .project-content {
+    padding-inline: 0;
+    border-inline-start: 0;
+    border-inline-end: 0;
+    margin-top: clamp(34px, 6vh, 52px);
+    padding-top: clamp(34px, 6vh, 52px);
+    border-top: 1px solid var(--line);
+  }
+
+  .about__list,
+  .featured__process,
+  .project-info {
+    padding-inline-start: 0;
+    border-inline-start: 0;
+    margin-top: clamp(34px, 6vh, 52px);
+    padding-top: clamp(34px, 6vh, 52px);
+    border-top: 1px solid var(--line);
+  }
+
+  .project-info {
+    position: static;
+  }
+
+  .closing__col {
+    min-height: 0;
+  }
+
+  .closing__cv,
+  .closing__contact {
+    padding-inline: 0;
+  }
+
+  .closing__quote {
+    border-inline-start: 0;
+    border-top: 1px solid var(--line);
+    padding-inline: 0;
+    min-height: 0;
+    margin-top: clamp(34px, 6vh, 52px);
+    padding-top: clamp(34px, 6vh, 52px);
+  }
+
+  .closing__contact {
+    border-inline-start: 0;
+    border-top: 1px solid var(--line);
+    margin-top: clamp(34px, 6vh, 52px);
+    padding-top: clamp(34px, 6vh, 52px);
+  }
+
+  .portfolio__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+  }
+
+  .p-card {
+    aspect-ratio: 16 / 11;
+  }
+
+  .p-card:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .about__photo,
+  .featured__photo {
+    aspect-ratio: 16 / 11;
+  }
+
+  .project-gallery {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+  }
+
+  .project-gallery__item .project-gallery__photo,
+  .project-gallery__item:nth-child(2) .project-gallery__photo,
+  .project-gallery__item:nth-child(4) .project-gallery__photo {
+    aspect-ratio: 4 / 5;
+  }
+}
+
+/* Mobile — stacks, larger type -------------------------------- */
+@media (max-width: 640px) {
+  .portfolio__grid,
+  .project-gallery {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .p-card:last-child {
+    grid-column: auto;
+  }
+
+  .p-card {
+    aspect-ratio: 16 / 10;
+  }
+
+  .section-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 22px;
+  }
+
+  .site-footer__inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .brand__name {
+    display: none;
+  }
+
+  .hero {
+    min-height: max(560px, calc(100svh - var(--header-h)));
+  }
+
+  .hero__title {
+    font-size: clamp(2.1rem, 9.5vw, 2.9rem);
+  }
+
+  .section-title {
+    font-size: clamp(1.65rem, 7.5vw, 2.3rem);
+  }
+
+  .about__title {
+    font-size: clamp(1.75rem, 7.5vw, 2.4rem);
+  }
+
+  .project-hero {
+    min-height: max(540px, calc(84svh - var(--header-h)));
+  }
+
+  .project-hero__title {
+    font-size: clamp(1.95rem, 9vw, 2.7rem);
+  }
+
+  .quote {
+    font-size: clamp(1.3rem, 6vw, 1.7rem);
+  }
+
+  .arrow-link--box {
+    padding: 15px 20px;
+  }
+
+  .mobile-menu__link {
+    font-size: clamp(1.45rem, 6.4vh, 2rem);
+  }
+}

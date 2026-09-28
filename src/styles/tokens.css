@@ -1,0 +1,320 @@
+/* ============================================================
+   Design tokens — mineral, warm, monochrome
+   ============================================================ */
+:root {
+  --bone: #faf8f3;
+  --ivory: #f4efe5;
+  --ivory-2: #efe8db;
+  --sand: #e7dcc9;
+  --ochre: #c2a179;
+  --stone: #9a9186;
+  --text: #6e655c;
+  --brown: #5a4635;
+  --ink: #14110e;
+  --line: rgba(20, 17, 14, 0.14);
+  --line-soft: rgba(20, 17, 14, 0.08);
+  --veil: rgba(16, 13, 10, 0.44);
+
+  --serif: 'Cormorant Garamond', 'Times New Roman', serif;
+  --sans: 'Jost', 'Helvetica Neue', Arial, sans-serif;
+
+  --ls-wide: 0.3em; /* labels & eyebrows */
+  --ls-nav: 0.2em; /* nav & links */
+  --arrow-dir: 1;
+
+  --header-h: 74px;
+  --container: 1440px;
+  --gutter: clamp(22px, 4.4vw, 68px);
+  --section-y: clamp(84px, 11vh, 148px);
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+html[lang='ar'] {
+  --serif: 'Amiri', 'Cormorant Garamond', serif;
+  --sans: 'IBM Plex Sans Arabic', 'Jost', sans-serif;
+  --ls-wide: normal;
+  --ls-nav: normal;
+  --arrow-dir: -1;
+}
+
+/* ============================================================
+   Base
+   ============================================================ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-padding-top: calc(var(--header-h) + 16px);
+}
+
+body {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 1.75;
+  color: var(--text);
+  background: var(--bone);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+html[lang='ar'] body {
+  line-height: 1.95;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  padding: 0;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--serif);
+  font-weight: 400;
+  color: var(--ink);
+  line-height: 1.06;
+}
+
+html[lang='ar'] h1,
+html[lang='ar'] h2,
+html[lang='ar'] h3,
+html[lang='ar'] h4 {
+  line-height: 1.5;
+}
+
+::selection {
+  background: var(--sand);
+  color: var(--ink);
+}
+
+:focus-visible {
+  outline: 1px solid var(--brown);
+  outline-offset: 3px;
+}
+
+main {
+  padding-top: var(--header-h);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+/* ============================================================
+   Utilities
+   ============================================================ */
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.eyebrow {
+  font-family: var(--sans);
+  font-size: 0.68rem;
+  font-weight: 400;
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  color: var(--stone);
+}
+
+html[lang='ar'] .eyebrow {
+  font-size: 0.8rem;
+}
+
+.seg-i {
+  font-style: italic;
+}
+
+html[dir='rtl'] .seg-i {
+  font-style: normal;
+  color: var(--brown);
+}
+
+.hairline {
+  border: 0;
+  border-top: 1px solid var(--line-soft);
+}
+
+/* Scroll reveal -------------------------------------------------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(var(--reveal-y, 30px));
+  transition:
+    opacity 1.15s var(--ease) var(--reveal-delay, 0ms),
+    transform 1.15s var(--ease) var(--reveal-delay, 0ms);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Photos --------------------------------------------------------- */
+.photo {
+  position: relative;
+  overflow: hidden;
+  background: var(--sand);
+}
+
+.photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: sepia(0.07) saturate(0.93) contrast(1.02);
+  transition: transform 1.5s var(--ease);
+}
+
+.photo-ph {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 22px;
+  text-align: center;
+  color: var(--stone);
+  background:
+    repeating-linear-gradient(135deg, rgba(20, 17, 14, 0.035) 0 1px, transparent 1px 13px),
+    linear-gradient(160deg, var(--ivory-2), var(--sand));
+}
+
+.photo-ph::after {
+  content: '';
+  position: absolute;
+  inset: 12px;
+  border: 1px solid rgba(20, 17, 14, 0.1);
+}
+
+.photo-ph__mark {
+  font-family: var(--serif);
+  font-size: 2rem;
+  letter-spacing: 0.14em;
+  color: var(--brown);
+  opacity: 0.8;
+  line-height: 1;
+}
+
+.photo-ph__label {
+  font-size: 0.58rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  line-height: 2;
+  max-width: 84%;
+  color: rgba(90, 70, 53, 0.72);
+}
+
+html[lang='ar'] .photo-ph__label {
+  letter-spacing: normal;
+  font-size: 0.74rem;
+}
+
+/* Arrow links ---------------------------------------------------- */
+.arrow-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  font-family: var(--sans);
+  font-size: 0.7rem;
+  font-weight: 400;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--ink);
+  padding-block: 6px;
+}
+
+html[lang='ar'] .arrow-link {
+  font-size: 0.84rem;
+  letter-spacing: normal;
+  text-transform: none;
+}
+
+.arrow-link__label {
+  position: relative;
+}
+
+.arrow-link__label::after {
+  content: '';
+  position: absolute;
+  inset-inline: 0;
+  bottom: -5px;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.55s var(--ease);
+}
+
+.arrow-link:hover .arrow-link__label::after {
+  transform: scaleX(1);
+}
+
+html[dir='rtl'] .arrow-link__label::after {
+  transform-origin: right center;
+}
+
+.arrow-link__arrow {
+  display: inline-flex;
+  transition: transform 0.5s var(--ease);
+}
+
+.arrow-link:hover .arrow-link__arrow {
+  transform: translateX(calc(var(--arrow-dir) * 7px));
+}
+
+html[dir='rtl'] .arrow-link__arrow svg {
+  transform: scaleX(-1);
+}
+
+.arrow-link--light {
+  color: rgba(250, 248, 243, 0.96);
+}
+
+.arrow-link--box {
+  border: 1px solid var(--line);
+  padding: 17px 28px;
+  gap: 20px;
+  transition:
+    background 0.5s var(--ease),
+    color 0.5s var(--ease),
+    border-color 0.5s var(--ease);
+}
+
+.arrow-link--box:hover {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--bone);
+}
+
