@@ -36,6 +36,15 @@ export default function Header() {
     };
   }, [open]);
 
+  useEffect(() => {
+    if (!open) return undefined;
+    const onKey = (event) => {
+      if (event.key === 'Escape') setOpen(false);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [open]);
+
   const active = onProject ? 'portfolio' : spied;
 
   const goHome = (e) => {
@@ -127,6 +136,7 @@ export default function Header() {
               className={`mobile-menu__link${active === id ? ' is-active' : ''}`}
               onClick={goTo(id)}
               tabIndex={open ? 0 : -1}
+              style={{ '--i': i }}
             >
               <span className="mobile-menu__num">{String(i + 1).padStart(2, '0')}</span>
               {t.nav[key]}

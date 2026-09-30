@@ -29,27 +29,6 @@
   justify-self: start;
 }
 
-.brand__mark {
-  display: grid;
-  place-items: center;
-  width: 34px;
-  height: 34px;
-  border: 1px solid var(--ink);
-  font-family: var(--serif);
-  font-size: 0.95rem;
-  color: var(--ink);
-  line-height: 1;
-  padding-top: 3px;
-  transition:
-    background 0.45s var(--ease),
-    color 0.45s var(--ease);
-}
-
-.brand:hover .brand__mark {
-  background: var(--ink);
-  color: var(--bone);
-}
-
 .brand__name {
   font-size: 0.68rem;
   letter-spacing: 0.26em;
@@ -135,6 +114,13 @@ html[dir='rtl'] .nav__link::after {
   transition: color 0.35s ease;
 }
 
+/* Larger touch target without changing the visual rhythm. */
+.lang__btn::before {
+  content: '';
+  position: absolute;
+  inset: -14px -6px;
+}
+
 .lang__btn:hover {
   color: var(--ink);
 }
@@ -162,6 +148,13 @@ html[dir='rtl'] .nav__link::after {
   width: 36px;
   height: 36px;
   position: relative;
+}
+
+/* 44×44 touch target, visual box unchanged. */
+.burger::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
 }
 
 .burger span {
@@ -204,11 +197,13 @@ html[dir='rtl'] .nav__link::after {
   z-index: 55;
   background: var(--bone);
   border-top: 1px solid var(--line-soft);
-  padding: clamp(28px, 6vh, 56px) var(--gutter) 42px;
+  padding: clamp(24px, 5vh, 48px) var(--gutter) calc(42px + env(safe-area-inset-bottom));
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  gap: 30px;
+  justify-content: flex-start;
+  gap: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   opacity: 0;
   visibility: hidden;
   transform: translateY(-12px);
@@ -224,10 +219,13 @@ html[dir='rtl'] .nav__link::after {
   transform: none;
 }
 
+/* Person's name removed from the menu — it lives in the header bar. */
+
 .mobile-menu__nav {
   display: flex;
   flex-direction: column;
-  gap: clamp(10px, 2.6vh, 22px);
+  gap: 0;
+  margin-top: clamp(16px, 3vh, 26px);
 }
 
 .mobile-menu__link {
@@ -238,7 +236,13 @@ html[dir='rtl'] .nav__link::after {
   font-size: clamp(1.5rem, 5vh, 2.3rem);
   color: var(--ink);
   line-height: 1.2;
+  padding-block: clamp(11px, 1.9vh, 16px);
+  border-bottom: 1px solid var(--line-soft);
   transition: color 0.35s ease;
+}
+
+.mobile-menu__link:first-child {
+  border-top: 1px solid var(--line-soft);
 }
 
 html[lang='ar'] .mobile-menu__link {
@@ -262,8 +266,38 @@ html[dir='rtl'] .mobile-menu__link.is-active {
 }
 
 .mobile-menu__meta {
+  margin-top: auto;
+  padding-top: 18px;
+  border-top: 1px solid var(--line-soft);
   font-size: 0.6rem;
   letter-spacing: 0.26em;
   text-transform: uppercase;
   color: var(--stone);
+}
+
+/* Staggered entrance of the menu items. */
+@keyframes menu-item-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .mobile-menu.is-open .mobile-menu__link,
+  .mobile-menu.is-open .mobile-menu__meta {
+    animation: menu-item-in 0.55s var(--ease) both;
+  }
+
+  .mobile-menu.is-open .mobile-menu__link {
+    animation-delay: calc(var(--i, 0) * 60ms + 120ms);
+  }
+
+  .mobile-menu.is-open .mobile-menu__meta {
+    animation-delay: 0.45s;
+  }
 }

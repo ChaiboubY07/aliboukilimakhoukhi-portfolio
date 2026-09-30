@@ -59,24 +59,82 @@
     padding-inline-end: 0;
   }
 
+  /* Harmonious mobile flow — text first, visuals after. */
+  .about__body {
+    order: 1;
+  }
+
+  .about__media {
+    order: 2;
+  }
+
+  .about__list {
+    order: 3;
+  }
+
+  .featured__body {
+    order: 1;
+  }
+
+  .featured__media {
+    order: 2;
+  }
+
+  .featured__process {
+    order: 3;
+  }
+
+  .closing__contact {
+    order: 1;
+  }
+
+  .closing__cv {
+    order: 2;
+  }
+
+  .closing__quote {
+    order: 3;
+  }
+
+  .project-content {
+    order: 1;
+  }
+
+  .project-info {
+    order: 2;
+  }
+
+  .project-gallery {
+    order: 3;
+  }
+
+  /* First block of each stack: no separator, just the resets. */
   .about__body,
   .featured__body,
   .project-content {
     padding-inline: 0;
     border-inline-start: 0;
     border-inline-end: 0;
-    margin-top: clamp(34px, 6vh, 52px);
-    padding-top: clamp(34px, 6vh, 52px);
-    border-top: 1px solid var(--line);
+    margin-top: 0;
+    padding-top: 0;
+    border-top: 0;
   }
 
+  /* Visual blocks that follow the text: breathing room only. */
+  .about__media,
+  .featured__media {
+    margin-top: clamp(30px, 5vh, 48px);
+  }
+
+  /* Separated blocks keep the hairline rhythm. */
   .about__list,
   .featured__process,
-  .project-info {
+  .project-info,
+  .project-gallery {
     padding-inline-start: 0;
     border-inline-start: 0;
-    margin-top: clamp(34px, 6vh, 52px);
-    padding-top: clamp(34px, 6vh, 52px);
+    margin-top: clamp(30px, 5vh, 48px);
+    padding-top: clamp(30px, 5vh, 48px);
     border-top: 1px solid var(--line);
   }
 
@@ -93,20 +151,28 @@
     padding-inline: 0;
   }
 
+  /* Contact leads the closing band on mobile (the CONTACT anchor lands here). */
+  .closing__contact {
+    border-inline-start: 0;
+    border-top: 0;
+    margin-top: 0;
+    padding-top: 0;
+  }
+
+  .closing__cv {
+    border-inline-start: 0;
+    border-top: 1px solid var(--line);
+    margin-top: clamp(30px, 5vh, 48px);
+    padding-top: clamp(30px, 5vh, 48px);
+  }
+
   .closing__quote {
     border-inline-start: 0;
     border-top: 1px solid var(--line);
     padding-inline: 0;
     min-height: 0;
-    margin-top: clamp(34px, 6vh, 52px);
-    padding-top: clamp(34px, 6vh, 52px);
-  }
-
-  .closing__contact {
-    border-inline-start: 0;
-    border-top: 1px solid var(--line);
-    margin-top: clamp(34px, 6vh, 52px);
-    padding-top: clamp(34px, 6vh, 52px);
+    margin-top: clamp(30px, 5vh, 48px);
+    padding-top: clamp(30px, 5vh, 48px);
   }
 
   .portfolio__grid {
@@ -118,7 +184,7 @@
     aspect-ratio: 16 / 11;
   }
 
-  .p-card:last-child {
+  .p-card:last-child:nth-child(odd) {
     grid-column: 1 / -1;
   }
 
@@ -140,8 +206,147 @@
   }
 }
 
-/* Mobile — stacks, larger type -------------------------------- */
+/* ============================================================
+   Phones — dedicated mobile composition (≤640px)
+   Everything in this block is scoped to small screens: the
+   desktop composition (≥1081px) and the tablet branches
+   (≤1080px / ≤992px) above stay exactly as they are.
+   ============================================================ */
 @media (max-width: 640px) {
+  /* Mobile design tokens ------------------------------------- */
+  :root {
+    --header-h: 60px;
+    --gutter: 18px;
+    --section-y: 64px;
+    --stack: 28px;
+  }
+
+  /* 1 — Header bar: name left, language + burger right -------- */
+  .site-header__bar {
+    gap: 10px;
+  }
+
+  .brand {
+    min-height: 44px; /* tap target, the bar stays centred */
+  }
+
+  .brand__name {
+    font-size: 0.6rem;
+    letter-spacing: 0.14em;
+    white-space: nowrap;
+  }
+
+  .site-header__end {
+    gap: 14px;
+  }
+
+  .lang {
+    gap: 8px;
+    font-size: 0.68rem;
+  }
+
+  .lang__btn {
+    padding-block: 6px;
+  }
+
+  /* 2 — Mobile menu: roomier rows ---------------------------- */
+  .mobile-menu {
+    padding-top: 18px;
+    padding-bottom: calc(26px + env(safe-area-inset-bottom));
+  }
+
+  .mobile-menu__nav {
+    margin-top: 0;
+  }
+
+  .mobile-menu__link {
+    font-size: clamp(1.45rem, 6.2vh, 1.95rem);
+    min-height: 62px;
+    padding-block: clamp(14px, 2.1vh, 20px);
+  }
+
+  /* 3 — Hero: the copy opens the screen, the photo fills below
+     The photo is landscape inside a portrait box: its full height is
+     always visible and only the sides get cropped, so it cannot be
+     lifted over a void — the copy starts at the top instead and flows
+     downwards, which removes the empty band above it. */
+  .hero {
+    min-height: 0;
+    align-items: stretch;
+  }
+
+  .hero__media {
+    inset: -6% 0;
+  }
+
+  .hero__inner {
+    display: flex;
+    align-items: stretch;
+    min-height: calc(100svh - var(--header-h));
+    padding-block: clamp(20px, 3.4vh, 32px) calc(30px + env(safe-area-inset-bottom));
+  }
+
+  /* The copy frames the photo instead of piling up in one corner: the
+     eyebrow and the title open the screen, the lead and the CTA close
+     it, and the flexible gap in between lets the image breathe. */
+  .hero__content {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(14px, 2vh, 22px);
+    width: 100%;
+    max-width: none;
+  }
+
+  /* Child margins give way to the flexible gap so the distribution
+     stays even on every screen height. */
+  .hero__eyebrow,
+  .hero__title,
+  .hero__lead,
+  .hero__cta {
+    margin-top: 0;
+  }
+
+  /* Absorbs the free space: support and CTA land on the bottom edge,
+     inside thumb reach. */
+  .hero__lead {
+    margin-top: auto;
+  }
+
+  .hero__eyebrow {
+    font-size: 0.6rem;
+    letter-spacing: 0.24em;
+  }
+
+  /* The later blocks below only carry type — the vertical rhythm is
+     owned by the flexible gap, so nothing overrides the auto margin. */
+  .hero__title {
+    font-size: clamp(2.05rem, 10.2vw, 2.8rem);
+    line-height: 1.1;
+  }
+
+  .hero__lead {
+    max-width: none;
+    font-size: 0.92rem;
+    line-height: 1.8;
+  }
+
+  /* One vertical scrim replaces the desktop split: dark at both ends
+     where the copy sits, clear in the middle so the workshop breathes
+     (LTR and RTL alike). */
+  .hero__scrim,
+  html[dir='rtl'] .hero__scrim {
+    background: linear-gradient(
+      to bottom,
+      rgba(12, 10, 8, 0.8) 0%,
+      rgba(12, 10, 8, 0.58) 24%,
+      rgba(12, 10, 8, 0.16) 44%,
+      rgba(12, 10, 8, 0.2) 56%,
+      rgba(12, 10, 8, 0.6) 76%,
+      rgba(12, 10, 8, 0.9) 100%
+    );
+  }
+
+  /* 4 — Stacks: cards and gallery in a single column ---------- */
   .portfolio__grid,
   .project-gallery {
     grid-template-columns: minmax(0, 1fr);
@@ -151,59 +356,536 @@
     grid-column: auto;
   }
 
-  .p-card {
-    aspect-ratio: 16 / 10;
+  /* 5 — Section furniture & shared typography ---------------- */
+  .eyebrow {
+    font-size: 0.62rem;
+    letter-spacing: 0.26em;
   }
 
   .section-head {
     flex-direction: column;
     align-items: flex-start;
-    gap: 22px;
+    gap: 18px;
+    padding-bottom: 22px;
+    margin-bottom: 26px;
   }
 
+  .section-head__right {
+    padding-bottom: 0;
+  }
+
+  .section-title {
+    margin-top: 14px;
+    max-width: none;
+    font-size: clamp(1.6rem, 7.6vw, 2.15rem);
+  }
+
+  /* 6 — À propos: text → portrait → savoir-faire -------------- */
+  .about__title {
+    margin-top: 14px;
+    font-size: clamp(1.75rem, 8.4vw, 2.4rem);
+  }
+
+  .about__text,
+  .about__extra p {
+    font-size: 0.94rem;
+  }
+
+  .about__text {
+    margin-top: 18px;
+  }
+
+  .about__more {
+    margin-top: 22px;
+  }
+
+  .about__photo {
+    aspect-ratio: 4 / 5;
+  }
+
+  .about__caption {
+    margin-top: 12px;
+    font-size: 0.58rem;
+    letter-spacing: 0.18em;
+  }
+
+  /* Savoir-faire: every skill centred on its own row, icon above
+     the label, hairlines kept as row separators. */
+  .about__list li {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding-block: 18px;
+    text-align: center;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+  }
+
+  /* 7 — Portfolio: taller cards, single column ---------------- */
+  .portfolio__grid {
+    gap: 12px;
+  }
+
+  .p-card {
+    aspect-ratio: 5 / 4;
+  }
+
+  .p-card__veil {
+    background: linear-gradient(
+      to top,
+      rgba(16, 13, 10, 0.74) 0%,
+      rgba(16, 13, 10, 0.3) 48%,
+      rgba(16, 13, 10, 0.42) 100%
+    );
+  }
+
+  .p-card__num {
+    top: 13px;
+    inset-inline-start: 14px;
+  }
+
+  .p-card__title {
+    bottom: 13px;
+    inset-inline-start: 14px;
+    inset-inline-end: 42px;
+    font-size: 0.76rem;
+    letter-spacing: 0.12em;
+  }
+
+  .p-card__arrow {
+    bottom: 11px;
+    inset-inline-end: 13px;
+  }
+
+  .portfolio__more {
+    margin-top: 24px;
+  }
+
+  /* 8 — Processus: photo → body → steps ----------------------- */
+  .featured__photo {
+    aspect-ratio: 4 / 3;
+  }
+
+  .featured__body .section-title {
+    max-width: none;
+  }
+
+  .featured__sub {
+    margin-top: 16px;
+    font-size: 1.18rem;
+  }
+
+  .featured__cta {
+    margin-top: 24px;
+  }
+
+  .featured__process-title {
+    margin-top: 12px;
+    font-size: 1.3rem;
+  }
+
+  /* Panel: the six steps sit in two columns — index, icon and label
+     centred in each cell, the rules are drawn by the grid itself. */
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-top: 22px;
+    border-top: 1px solid var(--line-soft);
+  }
+
+  /* The vertical rail has nothing left to connect. */
+  .steps::before {
+    display: none;
+  }
+
+  .steps__item {
+    grid-template-columns: minmax(0, 1fr);
+    align-content: center;
+    justify-items: center;
+    gap: 10px;
+    padding-block: 20px;
+    padding-inline-end: 14px;
+    text-align: center;
+    border-bottom: 1px solid var(--line-soft);
+  }
+
+  /* Second column: inset from the shared vertical rule. */
+  .steps__item:nth-child(even) {
+    padding-inline: 14px 0;
+    border-inline-start: 1px solid var(--line-soft);
+  }
+
+  /* Index first, so each cell reads 01 / icon / label. */
+  .steps__num {
+    order: -1;
+    font-size: 0.66rem;
+    color: var(--brown);
+  }
+
+  .steps__icon {
+    width: 30px;
+    height: 30px;
+  }
+
+  .steps__label {
+    font-size: 0.66rem;
+    letter-spacing: 0.12em;
+  }
+
+  /* 9 — Contact · CV · citation ------------------------------- */
+  .closing__title {
+    margin-top: 12px;
+    font-size: 1.6rem;
+  }
+
+  .closing__text {
+    margin-top: 16px;
+    font-size: 0.92rem;
+  }
+
+  .closing__email {
+    margin-top: 18px;
+    font-size: 0.95rem;
+    overflow-wrap: anywhere;
+  }
+
+  /* Every element of the contact band shares one centred axis: the CV
+     column and the contact column here, the quote was already centred. */
+  .closing__cv,
+  .closing__contact {
+    text-align: center;
+  }
+
+  .closing__text,
+  .closing__meta {
+    margin-inline: auto;
+    text-align: center;
+  }
+
+  .closing__social {
+    text-align: center;
+  }
+
+  .closing__cv-trigger {
+    margin-inline: auto;
+  }
+
+  .closing__meta {
+    margin-top: 12px;
+    font-size: 0.86rem;
+  }
+
+  .closing__social {
+    margin-top: 14px;
+  }
+
+  .closing__contact .arrow-link {
+    margin-top: 22px;
+  }
+
+  .closing__rule {
+    margin-bottom: 20px;
+  }
+
+  .quote {
+    max-width: none;
+    font-size: clamp(1.35rem, 6.4vw, 1.8rem);
+  }
+
+  .closing__cv-trigger {
+    margin-top: 22px;
+  }
+
+  .closing__cv-preview {
+    max-width: min(70vw, 280px);
+  }
+
+  .closing__cv-download {
+    width: 100%;
+    margin-top: 20px;
+    padding: 15px 14px;
+    border: 1px solid var(--line);
+    text-align: center;
+  }
+
+  /* 10 — Footer: two clean rows ------------------------------ */
   .site-footer__inner {
     flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+    padding-block: 22px calc(22px + env(safe-area-inset-bottom));
+    letter-spacing: 0.18em;
+  }
+
+  .site-footer__end {
+    width: 100%;
+    justify-content: space-between;
+    gap: 14px;
+  }
+
+  /* 11 — Project page: full-screen hero + stacked body -------- */
+  .project-hero {
+    min-height: 0;
+    align-items: stretch;
+  }
+
+  .project-hero__inner {
+    display: flex;
+    align-items: flex-end;
+    min-height: calc(100svh - var(--header-h));
+    padding-block: 84px calc(26px + env(safe-area-inset-bottom));
+  }
+
+  .project-hero__content {
+    max-width: none;
+  }
+
+  .project-hero__back {
+    min-height: 44px;
+    margin-bottom: 22px;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+  }
+
+  .project-hero__eyebrow {
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+  }
+
+  .project-hero__title {
+    margin-top: 14px;
+    font-size: clamp(1.95rem, 9.4vw, 2.7rem);
+  }
+
+  .project-hero__sub {
+    margin-top: 12px;
+    font-size: 1.15rem;
+  }
+
+  .project-hero__intro {
+    margin-top: 14px;
+    max-width: none;
+    font-size: 0.92rem;
+    line-height: 1.8;
+  }
+
+  .project-hero__cta {
+    margin-top: 22px;
+  }
+
+  .project-section {
+    padding-block: 26px;
+  }
+
+  .project-section__head {
+    flex-direction: column;
     align-items: flex-start;
+    gap: 6px;
+  }
+
+  .project-section__num {
+    font-size: 1.7rem;
+  }
+
+  .project-section__title {
+    font-size: 1.32rem;
+  }
+
+  .project-section__text {
+    margin-top: 14px;
+    font-size: 0.94rem;
+  }
+
+  .info-list__item {
+    padding-block: 14px;
+  }
+
+  .info-list__item dd {
+    padding-inline-start: 28px;
+    font-size: 0.9rem;
+  }
+
+  .project-info__quote {
+    margin-top: 24px;
+    padding-inline-start: 16px;
+    font-size: 1.12rem;
+  }
+
+  .project-gallery {
+    gap: 20px;
+  }
+
+  .project-gallery__item .project-gallery__photo {
+    aspect-ratio: 4 / 5;
+  }
+
+  .project-gallery__item:nth-child(2) .project-gallery__photo {
+    aspect-ratio: 1 / 1;
+  }
+
+  .project-gallery__item:nth-child(3) .project-gallery__photo {
+    aspect-ratio: 3 / 4;
+  }
+
+  .project-gallery__item:nth-child(4) .project-gallery__photo {
+    aspect-ratio: 5 / 6;
+  }
+
+  .project-gallery__cap {
+    margin-top: 10px;
+    font-size: 0.58rem;
+    letter-spacing: 0.16em;
+  }
+
+  /* 12 — Tactile CTAs: full-width, hairline framed ------------ */
+  .arrow-link {
+    padding-block: 13px;
+  }
+
+  .hero__cta .arrow-link,
+  .about__more,
+  .portfolio__more .arrow-link,
+  .featured__cta .arrow-link,
+  .closing__contact .arrow-link,
+  .project-hero__cta .arrow-link,
+  .project-info .arrow-link--box {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 15px 18px;
+    border: 1px solid var(--line);
+  }
+
+  /* Light context: the frame has to sit on the photo. */
+  .hero__cta .arrow-link,
+  .project-hero__cta .arrow-link {
+    border-color: rgba(250, 248, 243, 0.42);
+  }
+
+  /* The contact band is centred, so its framed CTA follows the axis
+     (declared after the group above, which sets space-between). */
+  .closing__contact .arrow-link {
+    justify-content: center;
+    gap: 14px;
+  }
+
+  /* 13 — Arabic (RTL) parity: no letter-spacing on Arabic ------- */
+  html[lang='ar'] .eyebrow,
+  html[lang='ar'] .hero__eyebrow,
+  html[lang='ar'] .about__caption,
+  html[lang='ar'] .project-gallery__cap,
+  html[lang='ar'] .project-hero__eyebrow,
+  html[lang='ar'] .project-hero__back,
+  html[lang='ar'] .site-footer__inner {
+    letter-spacing: normal;
+  }
+
+  html[lang='ar'] .hero__lead,
+  html[lang='ar'] .project-hero__intro,
+  html[lang='ar'] .about__text {
+    line-height: 1.95;
+  }
+
+  html[lang='ar'] .hero__title,
+  html[lang='ar'] .project-hero__title {
+    line-height: 1.45;
+  }
+
+  html[lang='ar'] .about__list li,
+  html[lang='ar'] .steps__label,
+  html[lang='ar'] .p-card__title {
+    font-size: 0.82rem;
+    letter-spacing: normal;
+  }
+
+  /* CV lightbox — larger controls on touch screens */
+  .cv-viewer__bar {
+    gap: 8px;
+    padding: 12px;
+  }
+
+  .cv-viewer__btn {
+    min-width: 44px;
+    height: 44px;
+  }
+
+  .cv-viewer__close {
+    margin-inline-start: 4px;
+  }
+
+  .cv-viewer__stage {
+    padding: 12px;
+  }
+
+  /* Stack rhythm — one shared value between stacked blocks */
+  .about__media,
+  .featured__media,
+  .about__list,
+  .featured__process,
+  .project-info,
+  .project-gallery,
+  .closing__cv,
+  .closing__quote {
+    margin-top: var(--stack);
+  }
+
+  .about__list,
+  .featured__process,
+  .project-info,
+  .project-gallery,
+  .closing__cv,
+  .closing__quote {
+    padding-top: var(--stack);
+  }
+}
+
+/* Ultra-small phones (≤360px) — nothing overflows, name stays whole */
+@media (max-width: 360px) {
+  :root {
+    --header-h: 56px;
+    --gutter: 15px;
+    --section-y: 56px;
+    --stack: 24px;
+  }
+
+  .site-header__bar {
+    gap: 8px;
+  }
+
+  .site-header__end {
     gap: 10px;
   }
 
   .brand__name {
-    display: none;
+    font-size: 0.55rem;
+    letter-spacing: 0.1em;
   }
 
-  .hero {
-    min-height: max(560px, calc(100svh - var(--header-h)));
+  .lang {
+    gap: 6px;
+    font-size: 0.64rem;
   }
 
   .hero__title {
-    font-size: clamp(2.1rem, 9.5vw, 2.9rem);
+    font-size: clamp(1.9rem, 10.6vw, 2.35rem);
   }
 
-  .section-title {
-    font-size: clamp(1.65rem, 7.5vw, 2.3rem);
-  }
-
-  .about__title {
-    font-size: clamp(1.75rem, 7.5vw, 2.4rem);
-  }
-
-  .project-hero {
-    min-height: max(540px, calc(84svh - var(--header-h)));
-  }
-
-  .project-hero__title {
-    font-size: clamp(1.95rem, 9vw, 2.7rem);
-  }
-
-  .quote {
-    font-size: clamp(1.3rem, 6vw, 1.7rem);
-  }
-
-  .arrow-link--box {
-    padding: 15px 20px;
+  .hero__lead,
+  .project-hero__intro {
+    font-size: 0.88rem;
   }
 
   .mobile-menu__link {
-    font-size: clamp(1.45rem, 6.4vh, 2rem);
+    min-height: 56px;
+  }
+
+  .closing__email {
+    font-size: 0.86rem;
+  }
+
+  .p-card__title {
+    font-size: 0.72rem;
   }
 }

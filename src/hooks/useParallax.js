@@ -11,6 +11,8 @@ export default function useParallax(strength = 44) {
     const el = ref.current;
     if (!el) return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    // Phones: skip the parallax entirely — smoother scrolling on touch devices.
+    if (window.matchMedia('(max-width: 640px)').matches) return;
 
     let raf = 0;
     const update = () => {

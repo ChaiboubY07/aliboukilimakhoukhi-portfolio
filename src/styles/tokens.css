@@ -52,6 +52,7 @@ html[lang='ar'] {
 
 html {
   -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
   scroll-padding-top: calc(var(--header-h) + 16px);
 }
 
@@ -115,6 +116,18 @@ html[lang='ar'] h4 {
 :focus-visible {
   outline: 1px solid var(--brown);
   outline-offset: 3px;
+}
+
+/* Touch feedback — subtle fade while pressing a control. */
+@media (hover: none) {
+  .arrow-link:active,
+  .brand:active,
+  .nav__link:active,
+  .mobile-menu__link:active,
+  .p-card:active,
+  .closing__cv-trigger:active {
+    opacity: 0.68;
+  }
 }
 
 main {

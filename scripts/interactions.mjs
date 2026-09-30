@@ -168,6 +168,102 @@ const backActive = await page.evaluate(
 );
 check('nav: PORTFOLIO again after re-click', backActive === 'PORTFOLIO');
 
+/* 11 — Mobile (390×844): layout order, burger, header name, overflow */
+await page.setViewportSize({ width: 390, height: 844 });
+await page.goto(`${BASE}/`, { waitUntil: 'load' });
+await page.waitForTimeout(1400);
+const overflowOk = () =>
+  page.evaluate(
+    () => document.documentElement.scrollWidth - document.documentElement.clientWidth <= 1
+  );
+const docY = (sel) =>
+  page.evaluate((s) => {
+    const el = document.querySelector(s);
+    return el ? el.getBoundingClientRect().top + window.scrollY : null;
+  }, sel);
+const inOrder = (ys) =>
+  ys.every((v) => v !== null) && ys.every((v, i) => i === 0 || ys[i - 1] < v);
+
+check('mobile: home has no horizontal overflow', await overflowOk());
+
+/* Scroll through once so every Reveal fires before measuring. */
+await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
+await page.waitForTimeout(1600);
+check(
+  'mobile: about order text → photo → list',
+  inOrder([await docY('.about__body'), await docY('.about__media'), await docY('.about__list')])
+);
+check(
+  'mobile: featured order text → photo → steps',
+  inOrder([
+    await docY('.featured__body'),
+    await docY('.featured__media'),
+    await docY('.featured__process'),
+  ])
+);
+check(
+  'mobile: closing order contact → CV → quote',
+  inOrder([await docY('.closing__contact'), await docY('.closing__cv'), await docY('.closing__quote')])
+);
+await page.evaluate(() => window.scrollTo(0, 0));
+await page.waitForTimeout(500);
+
+check('mobile: burger visible', await page.locator('.burger').isVisible());
+check('mobile: name shown in the header', await page.locator('.brand__name').isVisible());
+const headerName = await page.locator('.brand__name').innerText();
+check('mobile: header name is the person', headerName.includes('ALI BOUKILI MAKHOUKHI'));
+await page.click('.burger');
+await page.waitForTimeout(700);
+check('mobile: menu opens', (await page.locator('.mobile-menu.is-open').count()) === 1);
+check('mobile: menu has no name block', (await page.locator('.mobile-menu__name').count()) === 0);
+await page.keyboard.press('Escape');
+await page.waitForTimeout(500);
+check('mobile: Escape closes the menu', (await page.locator('.mobile-menu.is-open').count()) === 0);
+await page.click('.burger');
+await page.waitForTimeout(600);
+await page.click('.mobile-menu__link[href="#portfolio"]');
+await page.waitForTimeout(1700);
+check(
+  'mobile: menu closes after link tap',
+  (await page.locator('.mobile-menu.is-open').count()) === 0
+);
+const nearPortfolioMobile = await page.evaluate(() => {
+  const top = document.getElementById('portfolio')?.getBoundingClientRect().top;
+  return top !== null && Math.abs(top) < 220;
+});
+check('mobile: navigated to portfolio', nearPortfolioMobile);
+const tracks = await page.evaluate(
+  () => getComputedStyle(document.querySelector('.portfolio__grid')).gridTemplateColumns
+);
+check('mobile: portfolio grid is single column', tracks.trim().split(/\s+/).length === 1);
+check('mobile: still no overflow after scroll', await overflowOk());
+
+await page.goto(`${BASE}/projet/taille-de-pierre`, { waitUntil: 'load' });
+await page.waitForTimeout(1300);
+check('mobile: project page has no overflow', await overflowOk());
+await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
+await page.waitForTimeout(1600);
+check(
+  'mobile: project order text → info → gallery',
+  inOrder([
+    await docY('.project-content'),
+    await docY('.project-info'),
+    await docY('.project-gallery'),
+  ])
+);
+
+await page.getByRole('button', { name: 'AR', exact: true }).click();
+await page.waitForTimeout(700);
+check('mobile AR: no horizontal overflow', await overflowOk());
+
+await page.setViewportSize({ width: 320, height: 568 });
+await page.goto(`${BASE}/`, { waitUntil: 'load' });
+await page.waitForTimeout(1200);
+check('mobile 320: no horizontal overflow', await overflowOk());
+check('mobile 320: name fits in the header', await page.locator('.brand__name').isVisible());
+const nameBox = await page.locator('.brand__name').boundingBox();
+check('mobile 320: name within viewport', nameBox !== null && nameBox.x + nameBox.width <= 320);
+
 await browser.close();
 
 console.log(results.join('\n'));
