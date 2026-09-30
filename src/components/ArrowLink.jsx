@@ -12,7 +12,7 @@ export function ArrowSvg() {
 
 /**
  * Editorial call-to-action link. Use `to` for internal routes,
- * `href` for anchors / mailto.
+ * `href` for anchors / mailto. Extra props (aria-…) are forwarded.
  */
 export default function ArrowLink({
   to,
@@ -23,6 +23,7 @@ export default function ArrowLink({
   light = false,
   box = false,
   label = false,
+  ...rest
 }) {
   const cls = ['arrow-link', light && 'arrow-link--light', box && 'arrow-link--box', className]
     .filter(Boolean)
@@ -37,14 +38,14 @@ export default function ArrowLink({
 
   if (to) {
     return (
-      <Link className={cls} to={to} onClick={onClick} aria-label={label || undefined}>
+      <Link className={cls} to={to} onClick={onClick} aria-label={label || undefined} {...rest}>
         {content}
       </Link>
     );
   }
 
   return (
-    <a className={cls} href={href} onClick={onClick} aria-label={label || undefined}>
+    <a className={cls} href={href} onClick={onClick} aria-label={label || undefined} {...rest}>
       {content}
     </a>
   );

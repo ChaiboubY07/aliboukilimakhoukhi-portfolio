@@ -13,8 +13,8 @@ export function LanguageProvider({ children }) {
     html.dir = lang === 'ar' ? 'rtl' : 'ltr';
     document.title =
       lang === 'ar'
-        ? 'ALI BOUKILI MAKHOUKHI — مصمّم وحِرفيّ'
-        : 'ALI BOUKILI MAKHOUKHI — Designer & Artisan';
+        ? 'ALI BOUKILI MAKHOUKHI — نقّاش الحجر'
+        : 'ALI BOUKILI MAKHOUKHI — Tailleur de pierre';
   }, [lang]);
 
   const switchLang = useCallback((next) => setLang(next), []);

@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useLang } from '../../i18n/LanguageContext.jsx';
 import Reveal from '../../components/Reveal.jsx';
@@ -13,8 +14,19 @@ function CardArrow() {
   );
 }
 
+/** Number of projects shown before the "voir tous" link unfolds the rest. */
+const VISIBLE_CARDS = 4;
+
 export default function Portfolio() {
   const { t } = useLang();
+  const [showAll, setShowAll] = useState(false);
+
+  const cards = showAll ? t.portfolio.cards : t.portfolio.cards.slice(0, VISIBLE_CARDS);
+
+  const toggle = (event) => {
+    event.preventDefault();
+    setShowAll((v) => !v);
+  };
 
   return (
     <section id="portfolio" className="portfolio">
@@ -26,21 +38,23 @@ export default function Portfolio() {
               <Rich text={t.portfolio.title} />
             </h2>
           </Reveal>
-          <Reveal className="section-head__right" delay={130}>
-            <ArrowLink href="#portfolio">{t.portfolio.cta}</ArrowLink>
-          </Reveal>
         </div>
 
-        <div className="portfolio__grid">
-          {t.portfolio.cards.map((card, i) => {
+        <div className="portfolio__grid" id="portfolio-grid">
+          {cards.map((card, i) => {
             const inner = (
               <>
-                <Photo
-                  src={`/images/portfolio-0${i + 1}.jpg`}
-                  alt={card.alt}
-                  className="p-card__photo"
-                />
+                {card.wip ? (
+                  <span className="p-card__wip" />
+                ) : (
+                  <Photo
+                    src={`/images/portfolio-${String(i + 1).padStart(2, '0')}.jpg`}
+                    alt={card.alt}
+                    className="p-card__photo"
+                  />
+                )}
                 <span className="p-card__veil" />
+                {card.wip && <span className="p-card__badge">{t.portfolio.inProgress}</span>}
                 <span className="p-card__num">{card.n}</span>
                 <h3 className="p-card__title">{card.t}</h3>
                 <span className="p-card__arrow">
@@ -59,6 +73,17 @@ export default function Portfolio() {
               </Reveal>
             );
           })}
+        </div>
+
+        <div className="portfolio__more">
+          <ArrowLink
+            href="#portfolio"
+            onClick={toggle}
+            aria-expanded={showAll}
+            aria-controls="portfolio-grid"
+          >
+            {showAll ? t.portfolio.less : t.portfolio.cta}
+          </ArrowLink>
         </div>
       </div>
     </section>
